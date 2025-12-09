@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCB_Coil_Generator</title>
+    <style>
+        /* 基礎設定 */
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+            padding: 20px; /* 增加一點外距以免貼邊 */
+        }
+
+        /* 主容器：控制整體佈局 */
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            display: flex;
+            gap: 2rem;
+            max-width: 1100px; /* 加寬最大寬度 */
+            width: 100%;
+            /* 預設允許換行 (針對手機) */
+            flex-wrap: wrap; 
+            align-items: flex-start; /* 頂部對齊 */
+        }
+
+        /* 針對電腦螢幕 (寬度大於 800px) 強制左右排列 */
+        @media (min-width: 800px) {
+            .container {
+                flex-wrap: nowrap; /* 禁止換行 */
+            }
+        }
+
+        /* 左側控制區 */
+        .controls {
+            /* 在電腦版固定寬度，手機版則佔滿 */
+            flex: 0 0 340px; 
+            min-width: 300px;
+            width: 100%; 
+        }
+
+        /* 右側預覽區 */
+        .preview {
+            flex: 1; /* 自動填滿剩餘空間 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid #eee;
+            /* 讓高度跟隨內容或至少有一定高度 */
+            min-height: 450px; 
+            width: 100%; /* 確保在容器內佔滿 */
+            overflow: hidden; /* 防止內容溢出 */
+        }
+
+        /* 畫布設定：關鍵修正，讓它能自動縮放 */
+        canvas {
+            width: 100%;       /* 寬度隨容器縮放 */
+            height: auto;      /* 高度自動維持比例 */
+            aspect-ratio: 1/1; /* 強制正方形比例 */
+            max-width: 600px;  /* 最大不超過 600px */
+            object-fit: contain;
+        }
+
+        h2 { 
+            margin-top: 0; 
+            color: #2c3e50; 
+            font-size: 1.4rem; 
+            border-bottom: 2px solid #3498db; 
+            padding-bottom: 10px; 
+            display: inline-block;
+        }
+        .section-label {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #7f8c8d;
+            margin-top: 1.2rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* 輸入列佈局 */
+        .input-row { 
+            display: flex; 
+            gap: 15px; 
+            margin-bottom: 15px; 
+        }
+        .input-group { 
+            flex: 1; 
+            min-width: 0; /* 防止 Flex 子元素被撐爆 */
+        }
+        label { 
+            display: block; 
+            margin-bottom: 0.4rem; 
+            font-weight: 600; 
+            font-size: 0.9rem; 
+            color: #34495e; 
+            white-space: nowrap; /* 防止文字換行太醜 */
+        }
+        
+        .input-wrapper { 
+            display: flex; 
+            width: 100%; 
+            position: relative;
+        }
+
+        input[type="number"] {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            padding: 0.7rem;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        /* 當右邊還有元素時，移除右邊框 */
+        .input-wrapper input[type="number"]:not(:last-child) {
+            border-right: none;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        select.unit-select {
+            flex: 0 0 auto;
+            width: 70px;
+            background-color: #ecf0f1;
+            border: 1px solid #bdc3c7;
+            border-left: 1px solid #ddd;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #555;
+            cursor: pointer;
+            padding-left: 5px;
+        }
+        
+        select.full-width {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: white;
+        }
+
+        input:focus, select:focus { border-color: #3498db; outline: none; z-index: 2; }
+
+        button {
+            width: 100%;
+            padding: 0.9rem;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background 0.2s;
+        }
+        button:hover { background-color: #2980b9; }
+
+        .info {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #2c3e50;
+            background: #eaf2f8;
+            padding: 1rem;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="controls">
+        <h2>NTUT-UTL PCB 線圈設計</h2>
+        
+        <div class="section-label">幾何尺寸 (Geometry)</div>
+        
+        <div class="input-group" style="margin-bottom: 15px;">
+            <label>內徑 Din</label>
+            <div class="input-wrapper">
+                <input type="number" id="din" value="10" step="0.001" oninput="drawCoil()">
+                <select id="din_unit" class="unit-select" onchange="drawCoil()">
+                    <option value="1">mm</option>
+                    <option value="0.0254">mil</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="input-row">
+            <div class="input-group">
+                <label>線寬 Width</label>
+                <div class="input-wrapper">
+                    <input type="number" id="trace" value="10" step="0.1" oninput="drawCoil()">
+                    <select id="trace_unit" class="unit-select" onchange="drawCoil()">
+                        <option value="0.0254" selected>mil</option>
+                        <option value="1">mm</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>線距 Spacing</label>
+                <div class="input-wrapper">
+                    <input type="number" id="spacing" value="6" step="0.1" oninput="drawCoil()">
+                    <select id="spacing_unit" class="unit-select" onchange="drawCoil()">
+                        <option value="0.0254" selected>mil</option>
+                        <option value="1">mm</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-label">角度與方向 (Rotation)</div>
+        <div class="input-row">
+            <div class="input-group">
+                <label>旋轉方向</label>
+                <select id="direction" class="full-width" onchange="drawCoil()">
+                    <option value="ccw">逆時針 (CCW)</option>
+                    <option value="cw">順時針 (CW)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>起始角度 (deg)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="startAngle" value="0" step="15" oninput="drawCoil(); updateEndAngle();">
+                </div>
+            </div>
+        </div>
+        
+        <div class="input-row">
+            <div class="input-group">
+                <label>圈數 Turns</label>
+                <div class="input-wrapper">
+                    <input type="number" id="turns" value="5" step="0.25" oninput="updateEndAngle(); drawCoil();">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>結束角度 (deg)</label>
+                 <div class="input-wrapper">
+                    <input type="number" id="endAngle" value="1800" step="45" oninput="updateTurns(); drawCoil();">
+                </div>
+            </div>
+        </div>
+
+        <div class="info" id="infoBox">計算中...</div>
+        <button onclick="downloadDXF()">輸出 DXF 檔案</button>
+    </div>
+
+    <div class="preview">
+        <canvas id="coilCanvas" width="800" height="800"></canvas>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('coilCanvas');
+    const ctx = canvas.getContext('2d');
+    let coilPoints = []; 
+    let calcParams = {};
+
+    function getValInMm(inputId) {
+        const val = parseFloat(document.getElementById(inputId).value) || 0;
+        const unitElem = document.getElementById(inputId + '_unit');
+        const multiplier = unitElem ? parseFloat(unitElem.value) : 1;
+        return val * multiplier;
+    }
+
+    function updateEndAngle() {
+        const start = parseFloat(document.getElementById('startAngle').value) || 0;
+        const turns = parseFloat(document.getElementById('turns').value) || 0;
+        document.getElementById('endAngle').value = start + (turns * 360);
+    }
+
+    function updateTurns() {
+        const start = parseFloat(document.getElementById('startAngle').value) || 0;
+        const end = parseFloat(document.getElementById('endAngle').value) || 0;
+        const turns = (end - start) / 360;
+        document.getElementById('turns').value = Math.round(turns * 1000) / 1000;
+    }
+
+    function generateSpiralPoints() {
+        calcParams = {
+            din: getValInMm('din'),
+            w: getValInMm('trace'),
+            s: getValInMm('spacing'),
+            startDeg: parseFloat(document.getElementById('startAngle').value),
+            endDeg: parseFloat(document.getElementById('endAngle').value),
+            isCW: document.getElementById('direction').value === 'cw'
+        };
+
+        const { din, w, s, startDeg, endDeg, isCW } = calcParams;
+        const points = [];
+        
+        const totalAngleDelta = Math.abs(endDeg - startDeg);
+        const turns = totalAngleDelta / 360;
+        
+        if (turns <= 0) return [];
+
+        const segmentsPerTurn = 72; 
+        const totalSteps = Math.ceil(turns * segmentsPerTurn);
+        
+        const pitch = w + s;
+        const startRadius = din / 2;
+        const startRad = startDeg * (Math.PI / 180);
+
+        for (let i = 0; i <= totalSteps; i++) {
+            const progress = i / totalSteps;
+            const growthAngle = progress * (totalAngleDelta * Math.PI / 180);
+            const currentRadius = startRadius + (pitch * (growthAngle / (2 * Math.PI)));
+            
+            let currentTheta;
+            if (isCW) {
+                currentTheta = startRad - growthAngle;
+            } else {
+                currentTheta = startRad + growthAngle;
+            }
+            
+            points.push({
+                x: currentRadius * Math.cos(currentTheta),
+                y: currentRadius * Math.sin(currentTheta)
+            });
+        }
+        
+        const dout_mm = (startRadius + pitch * turns) * 2;
+        const dout_mil = dout_mm / 0.0254;
+        
+        // 增加線寬的 mil 換算
+        const w_mil = calcParams.w / 0.0254;
+
+        document.getElementById('infoBox').innerHTML = `
+            <strong>設計規格摘要：</strong><br>
+            外徑 (OD): <span style="color:#e74c3c">${dout_mm.toFixed(3)} mm</span> / ${dout_mil.toFixed(1)} mil<br>
+            總圈數: ${turns.toFixed(2)}<br>
+            線寬: ${calcParams.w.toFixed(3)} mm / ${w_mil.toFixed(1)} mil<br>
+            總線長: ~${(Math.PI * turns * (din + dout_mm)/2).toFixed(1)} mm
+        `;
+        return points;
+    }
+
+    function drawCoil() {
+        coilPoints = generateSpiralPoints();
+        
+        // 為了確保解析度夠高，我們保持 Canvas 的內部解析度，但透過 CSS 縮放顯示尺寸
+        // 不需要每次清除時重設 canvas.width，會導致閃爍，這裡直接 clearRect
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        if (coilPoints.length === 0) return;
+
+        ctx.save();
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        
+        let maxR = 0;
+        coilPoints.forEach(p => {
+            const r = Math.sqrt(p.x*p.x + p.y*p.y);
+            if(r > maxR) maxR = r;
+        });
+        maxR += calcParams.w / 2;
+
+        const scale = (canvas.width / 2 * 0.9) / (maxR || 1); 
+        ctx.scale(scale, -scale); 
+
+        // 格線
+        ctx.lineWidth = 1 / scale;
+        ctx.strokeStyle = '#e0e0e0';
+        ctx.beginPath();
+        ctx.moveTo(-maxR, 0); ctx.lineTo(maxR, 0);
+        ctx.moveTo(0, -maxR); ctx.lineTo(0, maxR);
+        ctx.stroke();
+
+        // 線圈
+        ctx.beginPath();
+        ctx.moveTo(coilPoints[0].x, coilPoints[0].y);
+        for (let i = 1; i < coilPoints.length; i++) {
+            ctx.lineTo(coilPoints[i].x, coilPoints[i].y);
+        }
+        ctx.lineWidth = calcParams.w; 
+        ctx.strokeStyle = '#d35400'; 
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+
+        // 起點
+        ctx.fillStyle = '#27ae60';
+        ctx.beginPath();
+        ctx.arc(coilPoints[0].x, coilPoints[0].y, calcParams.w * 0.6, 0, 2*Math.PI);
+        ctx.fill();
+        ctx.restore();
+    }
+
+    function downloadDXF() {
+        const w_mm = calcParams.w;
+        const din_label = document.getElementById('din').value;
+        let dxf = "0\nSECTION\n2\nHEADER\n9\n$ACADVER\n1\nAC1009\n9\n$INSUNITS\n70\n4\n0\nENDSEC\n";
+        dxf += "0\nSECTION\n2\nENTITIES\n";
+        dxf += "0\nLWPOLYLINE\n";
+        dxf += "8\n0\n"; 
+        dxf += "90\n" + coilPoints.length + "\n"; 
+        dxf += "70\n0\n"; 
+        dxf += "43\n" + w_mm.toFixed(5) + "\n"; 
+        for (let p of coilPoints) {
+            dxf += "10\n" + p.x.toFixed(5) + "\n"; 
+            dxf += "20\n" + p.y.toFixed(5) + "\n"; 
+        }
+        dxf += "0\nENDSEC\n";
+        dxf += "0\nEOF\n";
+
+        const blob = new Blob([dxf], { type: 'application/dxf' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `coil_din${din_label}_${document.getElementById('direction').value}.dxf`;
+        link.click();
+    }
+
+    window.onload = function() {
+        updateEndAngle();
+        drawCoil();
+    };
+</script>
+
+</body>
+</html>
