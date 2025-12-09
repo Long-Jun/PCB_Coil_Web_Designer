@@ -72,8 +72,8 @@ Optional files you may add:
 1.  **Clone this repository:**
     下載此專案原始碼：
     ```bash
-    git clone [https://github.com/](https://github.com/)Long-Jun/PCB_Coil_Web_Designer.git
-    cd PCB_Coil_Web_Designer
+    git clone [https://github.com/](https://github.com/)<Long-Jun>/<PCB_Coil_Web_Designer>.git
+    cd <PCB_Coil_Web_Designer>
     ```
 
 2.  **Open `index.html` with your browser** (Chrome / Edge / Firefox, etc.).
