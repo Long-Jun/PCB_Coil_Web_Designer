@@ -1,75 +1,89 @@
-# NTUT-UTL PCB Coil Generator  
-# 北科大 UTL 實驗室 PCB 螺旋線圈產生器
+NTUT-UTL PCB Coil Generator
+北科大 UTL 實驗室 PCB 螺旋線圈產生器
 
-Interactive web-based tool for designing planar PCB spiral coils,  
-with live preview, mm/mil unit support, and DXF export.  
-專為平面 PCB 螺旋線圈設計的互動式網頁工具，支援 mm / mil 單位、即時預覽與 DXF 輸出。  
+Interactive web-based tool for designing planar PCB spiral coils,
+with live preview, mm/mil unit support, and DXF export.
+專為平面 PCB 螺旋線圈設計的互動式網頁工具，支援 mm / mil 單位、即時預覽與 DXF 輸出。
 
-Originally developed for the UTL Lab at National Taipei University of Technology (NTUT).  
+Originally developed for the UTL Lab at National Taipei University of Technology (NTUT).
 最初開發用途為國立臺北科技大學 UTL 實驗室之 PCB 線圈設計與實驗。
 
----
+✨ Features 功能特色
 
-## ✨ Features 功能特色
+Interactive coil preview 即時線圈預覽
 
-- **Interactive coil preview 即時線圈預覽**
-  - Real-time drawing on HTML5 `<canvas>`  
-    透過 HTML5 `<canvas>` 即時繪製線圈形狀  
-  - Auto-scaling view, always centered on the coil  
-    畫面自動縮放與置中顯示，不須手動調整視窗
+Real-time drawing on HTML5 <canvas>
+透過 HTML5 <canvas> 即時繪製線圈形狀
 
-- **Practical geometry controls 幾何參數控制**
-  - Inner diameter **Din** with mm / mil unit selection  
-    內徑 Din 支援 mm / mil 單位切換  
-  - Trace width & spacing (mm / mil)  
-    線寬與線距皆可使用 mm / mil 輸入  
-  - Rotation direction (CW / CCW), start angle, end angle or turns  
-    支援順 / 逆時針方向，起始角度、結束角度與圈數互相聯動
+Auto-scaling view, always centered on the coil
+畫面自動縮放與置中顯示，不須手動調整視窗
 
-- **Automatic design summary 設計摘要資訊**
-  - Outer diameter (OD) in mm and mil  
-    自動計算外徑 OD（mm / mil）  
-  - Total number of turns  
-    顯示實際總圈數  
-  - Approximate total trace length  
-    估算總線長（便於粗略推估電阻等）
+Practical geometry controls 幾何參數控制
 
-- **DXF export DXF 檔匯出**
-  - Exports a single `LWPOLYLINE` entity in mm  
-    匯出單一 `LWPOLYLINE` 實體，座標單位為 mm  
-  - Trace width stored as polyline width  
-    線寬寫入 polyline width 欄位，方便在 CAD 中直接使用
+Inner diameter Din with mm / mil unit selection
+內徑 Din 支援 mm / mil 單位切換
 
-All logic is implemented in pure HTML/CSS/JavaScript. No external libraries are required.  
+Trace width & spacing (mm / mil)
+線寬與線距皆可使用 mm / mil 輸入
+
+Rotation direction (CW / CCW), start angle, end angle or turns
+支援順 / 逆時針方向，起始角度、結束角度與圈數互相聯動
+
+Automatic design summary 設計摘要資訊
+
+Outer diameter (OD) in mm and mil
+自動計算外徑 OD（mm / mil）
+
+Total number of turns
+顯示實際總圈數
+
+Approximate total trace length
+估算總線長（便於粗略推估電阻等）
+
+DXF export DXF 檔匯出
+
+Exports a single LWPOLYLINE entity in mm
+匯出單一 LWPOLYLINE 實體，座標單位為 mm
+
+Trace width stored as polyline width
+線寬寫入 polyline width 欄位，方便在 CAD 中直接使用
+
+All logic is implemented in pure HTML/CSS/JavaScript. No external libraries are required.
 所有邏輯均以原生 HTML / CSS / JavaScript 實作，無外部套件依賴。
 
----
+📂 Project Structure 專案結構
 
-## 📂 Project Structure 專案結構
-
-Currently the project consists of a single main file:  
+Currently the project consists of a single main file:
 目前專案主要由一個檔案組成：
 
-```text
-.
-├─ index.html   # Main HTML page, includes CSS + JavaScript logic
-└─ (optional) docs/
-   └─ screenshot.png   # You can add a screenshot for the README
-index.html: main UI, styling, and JS logic are all inside this file.
+index.html
+
+Main HTML page, includes CSS + JavaScript logic.
+
 主視覺、版面配置與 JavaScript 計算程式都寫在這個檔案中。
+
+Optional files you may add:
+可以自行新增的選用檔案，例如：
+
+docs/screenshot.png
+
+A screenshot used in this README.
+
+用於在 README 中展示工具畫面。
 
 If you rename the file (e.g., pcb_coil_generator.html), remember to update this description.
 如果日後更改檔名，記得同步更新 README 說明。
 
 🚀 Getting Started 開始使用
 1. Local usage 本機使用
+
 Clone this repository:
 下載此專案原始碼：
 
-bash
-複製程式碼
 git clone https://github.com/<your-account>/<your-repo-name>.git
 cd <your-repo-name>
+
+
 Open index.html with your browser (Chrome / Edge / Firefox, etc.).
 使用瀏覽器開啟 index.html（雙擊檔案或拖曳至瀏覽器視窗即可）。
 
@@ -77,6 +91,7 @@ Open index.html with your browser (Chrome / Edge / Firefox, etc.).
 本工具為純前端靜態網頁，可 完全離線 使用。
 
 2. GitHub Pages (optional) 在 GitHub Pages 部署（選用）
+
 You can host this tool as an online demo for your lab members:
 你可以把它部署成線上版，方便實驗室成員直接使用。
 
@@ -93,14 +108,15 @@ Branch: main（或你的預設分支），Root /
 GitHub will generate a URL, e.g.:
 GitHub 會產生一個網址，例如：
 
-text
-複製程式碼
 https://<your-account>.github.io/<your-repo-name>/
+
+
 Share this URL with your team; they can use the coil generator directly in the browser.
 把這個網址分享給實驗室成員，就能直接在瀏覽器上使用線圈設計工具。
 
 🧮 Parameter Explanation 參數說明
 Geometry 幾何尺寸
+
 Inner diameter Din
 
 Input: numeric value + unit (mm / mil)
@@ -153,6 +169,7 @@ Radius grows linearly with angle.
 半徑隨旋轉角度線性增加。
 
 📁 DXF Export DXF 匯出格式
+
 When you click 「輸出 DXF 檔案」, the tool generates a DXF file:
 按下 「輸出 DXF 檔案」 按鈕時，工具會產生一個 DXF 檔案，內容特性如下：
 
@@ -171,15 +188,16 @@ polyline width 欄位設為線寬（mm）
 Filename pattern:
 檔名格式：
 
-text
-複製程式碼
 coil_din<Din>_<direction>.dxf
+
+
 Example 例如：coil_din10_ccw.dxf
 
 If the scale looks incorrect after importing into an ECAD/CAD tool, please check that the unit is interpreted as mm.
 若匯入 ECAD / CAD 後比例不正，請確認軟體有將座標單位視為 mm。
 
 ⚙️ Implementation Notes 實作細節
+
 No external dependencies: pure HTML + CSS + vanilla JavaScript
 無任何外部 JS / CSS 套件，純原生 HTML / CSS / JavaScript。
 
@@ -200,6 +218,7 @@ You can increase this value for higher resolution (at the cost of larger DXF fil
 若需要更高解析度，可提高此數值，但 DXF 檔案會變大。
 
 🧪 Limitations & TODO 已知限制與未來可能改進
+
 Current limitations 目前限制：
 
 Only supports single-layer planar spiral coils.
@@ -232,27 +251,29 @@ UI enhancements (keyboard shortcuts, presets for common coil sizes).
 增加快捷鍵、常用尺寸預設等更友善的操作介面。
 
 📜 License 授權條款
+
 ⚠️ Choose ONE of the styles below and remove the other.
 ⚠️ 請從以下兩種擇一使用，並刪除不需要的版本。
 
 Option A: Open Source (MIT) 開源版本（MIT 授權）
-text
-複製程式碼
 This project is licensed under the MIT License.
 See the LICENSE file for details.
+
+
 本專案採用 MIT 授權條款，詳細內容請參考根目錄下的 LICENSE 檔案。
 
 Option B: Internal Use 內部使用版本
-text
-複製程式碼
 All rights reserved.
 
 This tool is intended for internal use in the NTUT UTL Lab.
 Please contact the author before redistributing or modifying.
+
+
 本工具主要供 國立臺北科技大學 UTL 實驗室 內部使用，
 如需轉載、修改或公開發佈，請先聯絡作者取得同意。
 
 🙌 Acknowledgements 致謝
+
 NTUT UTL Lab – original use case: PCB spiral coils for sensing and experimental setups.
 感謝 國立臺北科技大學 UTL 實驗室 在感測器與實驗設計上的需求，促成本工具的開發。
 
