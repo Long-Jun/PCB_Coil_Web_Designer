@@ -60,7 +60,7 @@ Optional files you may add:
     * **A screenshot used in this README.**
         用於在 README 中展示工具畫面。
 
-> If you rename the file (e.g., `pcb_coil_generator.html`), remember to update this description.
+> If you rename the file (e.g., `index.html`), remember to update this description.
 > 如果日後更改檔名，記得同步更新 README 說明。
 
 ---
@@ -72,8 +72,8 @@ Optional files you may add:
 1.  **Clone this repository:**
     下載此專案原始碼：
     ```bash
-    git clone [https://github.com/](https://github.com/)<your-account>/<your-repo-name>.git
-    cd <your-repo-name>
+    git clone [https://github.com/](https://github.com/)Long-Jun/PCB_Coil_Web_Designer.git
+    cd PCB_Coil_Web_Designer
     ```
 
 2.  **Open `index.html` with your browser** (Chrome / Edge / Firefox, etc.).
