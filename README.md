@@ -7,6 +7,9 @@ Interactive web-based tool for designing planar PCB spiral coils, with live prev
 Originally developed for the UTL Lab at National Taipei University of Technology (NTUT).
 最初開發用途為國立臺北科技大學 UTL 實驗室之 PCB 線圈設計與實驗。
 
+GitHub靜態網址:
+https://long-jun.github.io/PCB_Coil_Web_Designer/
+
 ---
 
 ## ✨ Features 功能特色
