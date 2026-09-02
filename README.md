@@ -1,9 +1,32 @@
 # NTUT-UTL PCB Coil Generator
 
-<details open>
-<summary><strong>English</strong></summary>
+<p align="center">
+  <a href="#english"><strong>English</strong></a>
+  &nbsp;&nbsp; ◉━━━━━━━━○ &nbsp;&nbsp;
+  <a href="#繁體中文"><strong>繁體中文</strong></a>
+</p>
+
+<p align="center"><sub>Default: English · Click a language to jump within this README</sub></p>
+
+
+---
+
+<a id="english"></a>
+
+## English
+
+<p align="center">
+  <strong>English</strong>
+  &nbsp;&nbsp; ◉━━━━━━━━○ &nbsp;&nbsp;
+  <a href="#繁體中文"><strong>繁體中文</strong></a>
+</p>
+
 
 Interactive browser-based tool for designing planar PCB spiral coils with live preview, mm/mil unit support, and DXF export.
+
+## 📚 Overview
+
+This project provides a lightweight browser-based workflow for quickly defining planar PCB spiral-coil geometry, previewing the result, and exporting the design as DXF for further CAD / ECAD use.
 
 **Online tool:**  
 https://long-jun.github.io/PCB_Coil_Web_Designer/
@@ -12,7 +35,7 @@ Originally developed for the UTL Lab at National Taipei University of Technology
 
 ---
 
-## Features
+## ✨ Features
 
 - Real-time planar spiral coil preview using HTML5 Canvas
 - Automatic scaling and centered preview
@@ -27,7 +50,7 @@ Originally developed for the UTL Lab at National Taipei University of Technology
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Online
 
@@ -48,7 +71,7 @@ Then open `index.html` in Chrome, Edge, Firefox, or another modern browser.
 
 ---
 
-## Design Parameters
+## 🧭 Design Parameters
 
 ### Inner Diameter
 
@@ -100,7 +123,7 @@ pitch = trace width + spacing
 
 ---
 
-## Design Summary
+## 📊 Design Summary
 
 The tool automatically reports:
 
@@ -112,7 +135,7 @@ These values are intended for rapid PCB-coil design and preliminary engineering 
 
 ---
 
-## DXF Export
+## 📁 DXF Export
 
 The generated DXF can be imported into common CAD / ECAD software.
 
@@ -126,7 +149,7 @@ If the imported geometry appears at the wrong scale, verify that the destination
 
 ---
 
-## Project Structure
+## 🗂️ Project Structure
 
 ```text
 PCB_Coil_Web_Designer/
@@ -140,7 +163,7 @@ The main interface, styling, and JavaScript logic are contained in `index.html`.
 
 ---
 
-## Limitations
+## ⚠️ Limitations
 
 The current version is primarily intended for single-layer planar spiral coils.
 
@@ -153,7 +176,7 @@ Current limitations include:
 
 ---
 
-## GitHub Pages
+## 🌐 GitHub Pages
 
 This repository can be deployed directly as a static website.
 
@@ -169,7 +192,7 @@ https://long-jun.github.io/PCB_Coil_Web_Designer/
 
 ---
 
-## License
+## 📜 License
 
 This project is licensed under the **Apache License 2.0**.
 
@@ -177,18 +200,30 @@ See [LICENSE](./LICENSE) for details.
 
 ---
 
-## Acknowledgements
+## 🙌 Acknowledgements
 
 Originally developed for PCB coil design and experimental work in the **UTL Lab, National Taipei University of Technology (NTUT)**.
 
 Feedback, issues, and improvements are welcome through GitHub Issues.
 
-</details>
+---
 
-<details>
-<summary><strong>繁體中文</strong></summary>
+<a id="繁體中文"></a>
+
+## 繁體中文
+
+<p align="center">
+  <a href="#english"><strong>English</strong></a>
+  &nbsp;&nbsp; ○━━━━━━━━◉ &nbsp;&nbsp;
+  <strong>繁體中文</strong>
+</p>
+
 
 北科大UTL實驗室使用的平面PCB螺旋線圈設計工具，可直接在瀏覽器中調整線圈幾何參數、即時預覽，並輸出DXF。
+
+## 📚 簡介
+
+本專案提供一套輕量化的瀏覽器端PCB平面螺旋線圈設計流程，可快速設定線圈幾何、即時檢查結果，並輸出DXF供後續CAD / ECAD使用。
 
 **線上工具：**  
 https://long-jun.github.io/PCB_Coil_Web_Designer/
@@ -197,7 +232,7 @@ https://long-jun.github.io/PCB_Coil_Web_Designer/
 
 ---
 
-## 功能特色
+## ✨ 功能特色
 
 - 使用HTML5 Canvas即時預覽平面螺旋線圈
 - 畫面自動縮放並保持線圈置中
@@ -212,7 +247,7 @@ https://long-jun.github.io/PCB_Coil_Web_Designer/
 
 ---
 
-## 快速開始
+## 🚀 快速開始
 
 ### 線上使用
 
@@ -233,7 +268,7 @@ cd PCB_Coil_Web_Designer
 
 ---
 
-## 設計參數
+## 🧭 設計參數
 
 ### Inner Diameter
 
@@ -285,7 +320,7 @@ pitch = trace width + spacing
 
 ---
 
-## 設計摘要
+## 📊 設計摘要
 
 工具會自動顯示：
 
@@ -297,7 +332,7 @@ pitch = trace width + spacing
 
 ---
 
-## DXF輸出
+## 📁 DXF輸出
 
 產生的DXF可匯入常見CAD / ECAD軟體。
 
@@ -311,7 +346,7 @@ pitch = trace width + spacing
 
 ---
 
-## 專案結構
+## 🗂️ 專案結構
 
 ```text
 PCB_Coil_Web_Designer/
@@ -325,7 +360,7 @@ PCB_Coil_Web_Designer/
 
 ---
 
-## 已知限制
+## ⚠️ 已知限制
 
 目前版本主要針對單層平面螺旋線圈：
 
@@ -336,7 +371,7 @@ PCB_Coil_Web_Designer/
 
 ---
 
-## GitHub Pages部署
+## 🌐 GitHub Pages部署
 
 1. 進入**Settings → Pages**
 2. 選擇**Deploy from a branch**
@@ -350,7 +385,7 @@ https://long-jun.github.io/PCB_Coil_Web_Designer/
 
 ---
 
-## 授權
+## 📜 授權
 
 本專案採用**Apache License 2.0**。
 
@@ -358,10 +393,16 @@ https://long-jun.github.io/PCB_Coil_Web_Designer/
 
 ---
 
-## 致謝
+## 🙌 致謝
 
 本工具最初因應**國立臺北科技大學UTL實驗室**之PCB線圈設計與實驗需求開發。
 
 若發現問題或有改進建議，歡迎透過GitHub Issues回饋。
 
-</details>
+---
+
+<p align="center">
+  <a href="#english">↑ English</a>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="#繁體中文">↑ 繁體中文</a>
+</p>
